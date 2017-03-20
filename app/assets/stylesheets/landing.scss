@@ -1,3 +1,13 @@
 // Place all the styles related to the landing controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.button{
+    width: 150px; 
+    font-size: 30px; 
+    padding: 10px; 
+    background-color: white; 
+    color: black; 
+    border: 2px solid #000;
+    cursor: pointer;
+}

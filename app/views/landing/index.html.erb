@@ -1,6 +1,6 @@
 <h1>Lic. en Psic. Janet González Olin</h1>
 <p> Maestra de Apoyo USAER 135</p>
-<input type="button" value="Girar" style="width: 200px; font-size: 50px; padding: 10px;" id='spin' />
+<input type="button" value="Girar" class="button" id='spin' />
 <div style="text-align: center;">
     <canvas id="canvas" width="800" height="800"></canvas>
 </div>
@@ -84,14 +84,14 @@ function drawRouletteWheel() {
     //Arrow
     ctx.fillStyle = "black";
     ctx.beginPath();
-    ctx.moveTo(320 - 4, 320 - (outsideRadius + 5));
-    ctx.lineTo(320 + 4, 320 - (outsideRadius + 5));
-    ctx.lineTo(320 + 4, 320 - (outsideRadius - 5));
-    ctx.lineTo(320 + 9, 320 - (outsideRadius - 5));
-    ctx.lineTo(320 + 0, 320 - (outsideRadius - 13));
-    ctx.lineTo(320 - 9, 320 - (outsideRadius - 5));
-    ctx.lineTo(320 - 4, 320 - (outsideRadius - 5));
-    ctx.lineTo(320 - 4, 320 - (outsideRadius + 5));
+    ctx.moveTo(320 - 10, 320 - (800 + 20));
+    ctx.lineTo(320 + 8, 320 - (outsideRadius + 20));
+    ctx.lineTo(320 + 8, 320 - (outsideRadius - 5));
+    ctx.lineTo(320 + 19, 320 - (outsideRadius - 5));
+    ctx.lineTo(320 + 0, 320 - (outsideRadius - 43));
+    ctx.lineTo(320 - 19, 320 - (outsideRadius - 5));
+    ctx.lineTo(320 - 8, 320 - (outsideRadius - 5));
+    ctx.lineTo(320 - 8, 320 - (outsideRadius + 20));
     ctx.fill();
   }
 }
@@ -122,8 +122,12 @@ function stopRotateWheel() {
   var index = Math.floor((360 - degrees % 360) / arcd);
   ctx.save();
   ctx.font = 'bold 100px Helvetica, Arial';
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = -1;
+  ctx.shadowBlur    = 0;
+  ctx.shadowColor   = "rgb(89,89,89)";
   var text = options[index]
-  ctx.fillText(text, 320 - ctx.measureText(text).width / 2, 320 + 10);
+  ctx.fillText(text, 320 - ctx.measureText(text).width / 2, 320 + 30);
   ctx.restore();
 }
 
