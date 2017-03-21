@@ -46,8 +46,8 @@ function getColor(item, maxitem) {
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
-    var outsideRadius = 270;
-    var textRadius = 200;
+    var outsideRadius = 250;
+    var textRadius = 190;
     var insideRadius = 145;
 
     ctx = canvas.getContext("2d");
@@ -56,15 +56,15 @@ function drawRouletteWheel() {
     ctx.strokeStyle = "white";
     ctx.lineWidth = 2;
 
-    ctx.font = 'bold 26px Helvetica, Arial';
+    ctx.font = 'bold 24px Helvetica, Arial';
 
     for(var i = 0; i < options.length; i++) {
       var angle = startAngle + i * arc;
       ctx.fillStyle = getColor(i, options.length);
 
       ctx.beginPath();
-      ctx.arc(320, 290, outsideRadius, angle, angle + arc, false);
-      ctx.arc(320, 290, insideRadius, angle + arc, angle, true);
+      ctx.arc(320, 270, outsideRadius, angle, angle + arc, false);
+      ctx.arc(320, 270, insideRadius, angle + arc, angle, true);
       ctx.stroke();
       ctx.fill();
 
@@ -75,7 +75,7 @@ function drawRouletteWheel() {
       ctx.shadowColor   = "rgb(0,0,0)";
       ctx.fillStyle = "white";
       ctx.translate(320 + Math.cos(angle + arc / 2) * textRadius, 
-                    290 + Math.sin(angle + arc / 2) * textRadius);
+                    270 + Math.sin(angle + arc / 2) * textRadius);
       ctx.rotate(angle + arc / 2 + Math.PI / 2);
       var text = options[i];
       ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
@@ -128,7 +128,7 @@ function stopRotateWheel() {
   ctx.shadowBlur    = 0;
   ctx.shadowColor   = "rgb(89,89,89)";
   var text = options[index]
-  ctx.fillText(text, 320 - ctx.measureText(text).width / 2, 320 );
+  ctx.fillText(text, 320 - ctx.measureText(text).width / 2, 300 );
   ctx.restore();
 }
 
