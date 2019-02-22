@@ -1,15 +1,17 @@
 <div style="text-align: center;">
-  <h2 style="margin-bottom: -12px;">Lic. en Psic. Janet González Olin</h2>
-  <p style:ma> Maestra de Apoyo USAER 135</p>
+  <h2 style="margin-bottom: -12px;">Quiero mi Termo</h2>
+  <p style:ma>Ruleta</p>
     <div>
+    <audio id="mysoundclip" preload="auto">
+      <source src="<%= asset_path('ruleta.mp3') %>"/>
+    </audio>
     <input type="button" value="Girar" class="button" style="float: left; transform: translateX(150%);" id='spin' />
-    <canvas id="canvas" width="800" height="800"></canvas>
+    <canvas id="canvas" width="900" height="900"></canvas>
 </div>
 <script>
-var options = ["A", "B", "BL", "BR", "C", "D", "DR", "E", "F", "FL", "FR", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "PL", "PR", "Q", "R", "S", "T", "TR", "TL", "U", "V", "X", "Y", "Z"];
+var options = ["AP", "AT", "AM", "AG", "AN", "DE", "DGA", "DM", "ES", "FG", "FM", "FV", "SanH", "IG", "Jero", "JB", "Pepe", "JLR", "JC", "JJG", "MR", "MM", "MT", "MAM", "PC", "RP", "RG", "SS"];
 
-
-var startAngle = 0;
+var startAngle = 40;
 var arc = Math.PI / (options.length / 2);
 var spinTimeout = null;
 
@@ -35,36 +37,36 @@ function getColor(item, maxitem) {
   var center = 538;
   var width = 95;
   var frequency = Math.PI*2/maxitem;
-  
+
   red   = Math.sin(frequency*item+2+phase) * width + center;
   green = Math.sin(frequency*item+0+phase) * width + center;
   blue  = Math.sin(frequency*item+4+phase) * width + center;
-  
+
   return RGB2Color(red,green,blue);
 }
 
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
-    var outsideRadius = 250;
-    var textRadius = 190;
-    var insideRadius = 145;
+    var outsideRadius = 300;
+    var textRadius = 240;
+    var insideRadius = 195;
 
     ctx = canvas.getContext("2d");
-    ctx.clearRect(0,0,800,800);
+    ctx.clearRect(0,0,900,900);
 
     ctx.strokeStyle = "white";
     ctx.lineWidth = 2;
 
-    ctx.font = 'bold 24px Helvetica, Arial';
+    ctx.font = 'bold 20px Helvetica, Arial';
 
     for(var i = 0; i < options.length; i++) {
       var angle = startAngle + i * arc;
       ctx.fillStyle = getColor(i, options.length);
 
       ctx.beginPath();
-      ctx.arc(320, 270, outsideRadius, angle, angle + arc, false);
-      ctx.arc(320, 270, insideRadius, angle + arc, angle, true);
+      ctx.arc(370, 320, outsideRadius, angle, angle + arc, false);
+      ctx.arc(370, 320, insideRadius, angle + arc, angle, true);
       ctx.stroke();
       ctx.fill();
 
@@ -74,38 +76,41 @@ function drawRouletteWheel() {
       ctx.shadowBlur    = 0;
       ctx.shadowColor   = "rgb(0,0,0)";
       ctx.fillStyle = "white";
-      ctx.translate(320 + Math.cos(angle + arc / 2) * textRadius, 
-                    270 + Math.sin(angle + arc / 2) * textRadius);
+      ctx.translate(370 + Math.cos(angle + arc / 2) * textRadius,
+                    320 + Math.sin(angle + arc / 2) * textRadius);
       ctx.rotate(angle + arc / 2 + Math.PI / 2);
       var text = options[i];
       ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
       ctx.restore();
-    } 
+    }
 
     //Arrow
     ctx.fillStyle = "black";
     ctx.beginPath();
-    ctx.moveTo(320 - 8, 320 - (800 + 20));
-    ctx.lineTo(320 + 8, 320 - (300 + 10));
-    ctx.lineTo(320 + 8, 320 - (300 - 5));
-    ctx.lineTo(320 + 19, 320 - (300 - 5));
-    ctx.lineTo(320 + 0, 320 - (300 - 43));
-    ctx.lineTo(320 - 19, 320 - (300 - 5));
-    ctx.lineTo(320 - 8, 320 - (300 - 5));
-    ctx.lineTo(320 - 8, 320 - (300 + 10));
+    ctx.moveTo(370 - 8, 320 - (800 + 20));
+    ctx.lineTo(370 + 8, 320 - (300 + 10));
+    ctx.lineTo(370 + 8, 320 - (300 - 5));
+    ctx.lineTo(370 + 19, 320 - (300 - 5));
+    ctx.lineTo(370 + 0, 320 - (300 - 43));
+    ctx.lineTo(370 - 19, 320 - (300 - 5));
+    ctx.lineTo(370 - 8, 320 - (300 - 5));
+    ctx.lineTo(370 - 8, 320 - (300 + 10));
     ctx.fill();
   }
 }
 
 function spin() {
+  var audio = $("#mysoundclip")[0];
+  audio.play()
   spinAngleStart = Math.random() * 10 + 10;
   spinTime = 0;
   spinTimeTotal = Math.random() * 3 + 4 * 1000;
   rotateWheel();
 }
 
+
 function rotateWheel() {
-  spinTime += 30;
+  spinTime += 15;
   if(spinTime >= spinTimeTotal) {
     stopRotateWheel();
     return;
@@ -129,6 +134,11 @@ function stopRotateWheel() {
   ctx.shadowColor   = "rgb(89,89,89)";
   var text = options[index]
   ctx.fillText(text, 320 - ctx.measureText(text).width / 2, 300 );
+  if(Math.random() >= 0.8){
+    toastr.success('Pasa por tu termo', '¡Felicidades!')
+  }else{
+    toastr.error('¡No eres un ganador!', 'Buuuuu')
+  }
   ctx.restore();
 }
 
